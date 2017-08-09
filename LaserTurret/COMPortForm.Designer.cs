@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.COMCollection = new System.Windows.Forms.ComboBox();
             this.OKButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -43,14 +43,14 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Please choose the COM port \r\nyou are using from the dropdown";
             // 
-            // comboBox1
+            // COMCollection
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(69, 59);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 1;
-            this.comboBox1.Text = "No port selected";
+            this.COMCollection.FormattingEnabled = true;
+            this.COMCollection.Location = new System.Drawing.Point(69, 59);
+            this.COMCollection.Name = "COMCollection";
+            this.COMCollection.Size = new System.Drawing.Size(121, 21);
+            this.COMCollection.TabIndex = 1;
+            this.COMCollection.Text = "No port selected";
             // 
             // OKButton
             // 
@@ -68,7 +68,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(269, 163);
             this.Controls.Add(this.OKButton);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.COMCollection);
             this.Controls.Add(this.label1);
             this.Name = "COMPortForm";
             this.Text = "COMPortForm";
@@ -81,7 +81,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox COMCollection;
         private System.Windows.Forms.Button OKButton;
     }
 }
