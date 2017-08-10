@@ -37,6 +37,7 @@
             this.changeCOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.PortLabel = new System.Windows.Forms.Label();
             this.Menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,7 +90,7 @@
             // changeCOMToolStripMenuItem
             // 
             this.changeCOMToolStripMenuItem.Name = "changeCOMToolStripMenuItem";
-            this.changeCOMToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.changeCOMToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.changeCOMToolStripMenuItem.Text = "Change COM";
             this.changeCOMToolStripMenuItem.Click += new System.EventHandler(this.changeCOMToolStripMenuItem_Click);
             // 
@@ -99,11 +100,21 @@
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
+            // PortLabel
+            // 
+            this.PortLabel.AutoSize = true;
+            this.PortLabel.Location = new System.Drawing.Point(236, 380);
+            this.PortLabel.Name = "PortLabel";
+            this.PortLabel.Size = new System.Drawing.Size(29, 13);
+            this.PortLabel.TabIndex = 4;
+            this.PortLabel.Text = "Port:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 562);
+            this.Controls.Add(this.PortLabel);
             this.Controls.Add(this.WarningLabel);
             this.Controls.Add(this.XY);
             this.Controls.Add(this.Degrees);
@@ -130,6 +141,7 @@
         private System.Windows.Forms.ToolStripMenuItem changeCOMToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.IO.Ports.SerialPort serialPort1;
+        private System.Windows.Forms.Label PortLabel;
     }
 }
 

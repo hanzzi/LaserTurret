@@ -29,6 +29,7 @@ namespace LaserTurret
             watch = Stopwatch.StartNew();
             try
             {
+                /*
                 System.IO.Ports.SerialPort tempSerial = new System.IO.Ports.SerialPort();
 
                 // Mostly default settings for the serialport except for the PortName which is whatever the user chose.
@@ -45,10 +46,14 @@ namespace LaserTurret
                 tempSerial.WriteBufferSize = 2048;
 
                 tempSerial.Open();
-
+                
                 // Assign the correctly configured serial port to the uninitialized serialport
                 SerialPort = tempSerial;
+                */
 
+                serialPort1.Open();
+
+                SerialPort = serialPort1;
             } catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
@@ -75,8 +80,8 @@ namespace LaserTurret
                     SerialPort.Write(String.Format("X{0}Y{1}",
                         (coordinates.X / (Size.Width / 180)),
                         coordinates.Y / (Size.Height / 180))
-                        );
-                        */
+                        );*/
+                        
             }
         }
 
@@ -136,6 +141,8 @@ namespace LaserTurret
         // write to the serialport whenever the mouse moves.
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
+            PortLabel.Text = "Port: " + Properties.Settings.Default.CurrentCOMPort;
+
             if (watch.ElapsedMilliseconds > 15)
                 WriteToPort(new Point(e.X, e.Y));
         }
