@@ -100,6 +100,10 @@
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
+            // serialPort1
+            // 
+            this.serialPort1.PortName = "COM2";
+            // 
             // PortLabel
             // 
             this.PortLabel.AutoSize = true;

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 
 namespace LaserTurret
 {
@@ -29,9 +30,9 @@ namespace LaserTurret
             watch = Stopwatch.StartNew();
             try
             {
-                /*
+                
                 System.IO.Ports.SerialPort tempSerial = new System.IO.Ports.SerialPort();
-
+                
                 // Mostly default settings for the serialport except for the PortName which is whatever the user chose.
                 tempSerial.BaudRate = 9600;
                 tempSerial.PortName = Properties.Settings.Default["CurrentCOMPort"].ToString();
@@ -44,19 +45,51 @@ namespace LaserTurret
                 tempSerial.ReadTimeout = -1;
                 tempSerial.ReceivedBytesThreshold = 1;
                 tempSerial.WriteBufferSize = 2048;
-
-                tempSerial.Open();
                 
                 // Assign the correctly configured serial port to the uninitialized serialport
                 SerialPort = tempSerial;
-                */
+                SerialPort.Open();
+                
+                Properties.Settings.Default.PropertyChanged += Default_PropertyChanged;
 
-                serialPort1.Open();
-
-                SerialPort = serialPort1;
             } catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            MessageBox.Show("Changed Property to: " + Properties.Settings.Default.CurrentCOMPort);
+
+            if (e.PropertyName == "CurrentCOMPort")
+            {
+                MessageBox.Show("Trying to shutdown serial port");
+
+                // Resets the port to change the port name 
+                SerialPort.Close();
+
+                int maxRetries = 15;
+                int sleepTimeMs = 50;
+
+                SerialPort.PortName = Properties.Settings.Default.CurrentCOMPort.ToString();
+                while (maxRetries > 0)
+                {
+                    try
+                    {
+                        SerialPort.Open();
+                    } catch (UnauthorizedAccessException)
+                    {
+                        // if opening the port fails 
+                        maxRetries--;
+                        Thread.Sleep(sleepTimeMs);
+                    } catch (InvalidOperationException)
+                    {
+                        // if opening the port fails
+                        maxRetries--;
+                        Thread.Sleep(sleepTimeMs);
+                    }
+                }
             }
         }
 
@@ -74,13 +107,13 @@ namespace LaserTurret
                 // displays the degrees and XY coordinates for debugging purposes
                 Degrees.Text = $"Degrees: X{DegreeX} Y{DegreeY}";
                 XY.Text = $"XY: {Form1.MousePosition}";
-                /*
+                
                 // writes the data to the COM port 
                 if (SerialPort.IsOpen)
                     SerialPort.Write(String.Format("X{0}Y{1}",
                         (coordinates.X / (Size.Width / 180)),
                         coordinates.Y / (Size.Height / 180))
-                        );*/
+                        );
                         
             }
         }
@@ -153,5 +186,6 @@ namespace LaserTurret
             COMForm.Show();
 
         }
+
     }
 }

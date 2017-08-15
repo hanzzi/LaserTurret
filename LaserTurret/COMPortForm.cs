@@ -24,7 +24,7 @@ namespace LaserTurret
 
             int i = 0;
 
-           foreach (string port in Properties.Settings.Default.COMPort)
+           foreach (string port in System.IO.Ports.SerialPort.GetPortNames())
             {
                 ports.Add(i, port);
 
