@@ -32,11 +32,20 @@ namespace LaserTurret
 
         public void ChangeComPort(SerialPort port, string targetComPort)
         {
-            port.Close();
+            if (port.IsOpen)
+            {
+                // 
+                Thread closePort = new Thread(() => port.Close());
+                closePort.Start();
 
+                port.PortName = Properties.Settings.Default.CurrentCOMPort;
+                port.Open();
+            }
+            /*
             int maxRetries = 30;
             int sleepTimeMs = 50;
 
+            
             // kinda Hacky...
             while (maxRetries > 0)
             {
@@ -57,7 +66,7 @@ namespace LaserTurret
                     maxRetries--;
                     Thread.Sleep(sleepTimeMs);
                 }
-            }
+            }*/
         }
     }
 }

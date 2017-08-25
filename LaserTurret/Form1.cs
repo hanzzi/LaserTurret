@@ -10,6 +10,8 @@ namespace LaserTurret
     public partial class Form1 : Form
     {
         public static SerialPort SerialPort;
+        private int _servoX = 0;
+        private int _servoY = 0;
 
         public Stopwatch Watch { get; set; }
 
@@ -21,6 +23,7 @@ namespace LaserTurret
         private void Form1_Load(object sender, EventArgs e)
         {
 
+            
             Watch = Stopwatch.StartNew();
             try
             {
@@ -68,11 +71,14 @@ namespace LaserTurret
 
                 // writes the data to the COM port 
                 if (SerialPort.IsOpen)
+                {
                     SerialPort.Write(String.Format("X{0}Y{1}",
                         coordinates.X / (Size.Width / 180),
                         coordinates.Y / (Size.Height / 180))
                     );
-
+                    _servoX = degreeX;
+                    _servoY = degreeY;
+                }
             }
         }
 
@@ -94,8 +100,14 @@ namespace LaserTurret
                 e.Cancel = true;
             else if (isCancel == DialogResult.OK)
             {
-                // dispose of resources just to be safe
+                
                 e.Cancel = false;
+                // reset the servos position to zero.
+                SerialPort.Write(String.Format("X{0}Y{1}",
+                   180 - _servoX / (Size.Width / 180),
+                   180 - _servoY / (Size.Height / 180))
+                );
+                // dispose of resources just to be safe
                 SerialPort.Close();
                 SerialPort.Dispose();
                 this.Dispose();
