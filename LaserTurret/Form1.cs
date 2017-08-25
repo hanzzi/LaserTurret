@@ -1,23 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.IO;
-using System.Threading;
+using System.IO.Ports;
 
 namespace LaserTurret
 {
     public partial class Form1 : Form
     {
-        public static System.IO.Ports.SerialPort SerialPort;
+        public static SerialPort SerialPort;
 
-        public Stopwatch watch { get; set; }
+        public Stopwatch Watch { get; set; }
 
         public Form1()
         {
@@ -27,32 +21,18 @@ namespace LaserTurret
         private void Form1_Load(object sender, EventArgs e)
         {
 
-            watch = Stopwatch.StartNew();
+            Watch = Stopwatch.StartNew();
             try
             {
-                
-                System.IO.Ports.SerialPort tempSerial = new System.IO.Ports.SerialPort();
-                
-                // Mostly default settings for the serialport except for the PortName which is whatever the user chose.
-                tempSerial.BaudRate = 9600;
-                tempSerial.PortName = Properties.Settings.Default["CurrentCOMPort"].ToString();
-                tempSerial.DataBits = 8;
-                tempSerial.DtrEnable = false;
-                tempSerial.Handshake = System.IO.Ports.Handshake.None;
-                tempSerial.Parity = System.IO.Ports.Parity.None;
-                tempSerial.ParityReplace = 63;
-                tempSerial.ReadBufferSize = 4096;
-                tempSerial.ReadTimeout = -1;
-                tempSerial.ReceivedBytesThreshold = 1;
-                tempSerial.WriteBufferSize = 2048;
-                
-                // Assign the correctly configured serial port to the uninitialized serialport
-                SerialPort = tempSerial;
-                SerialPort.Open();
-                
+
+                SerialController controller = new SerialController();
+                SerialPort port = controller.SetupSerialPort();
+                SerialPort = port;
+
                 Properties.Settings.Default.PropertyChanged += Default_PropertyChanged;
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
@@ -66,56 +46,42 @@ namespace LaserTurret
             {
                 MessageBox.Show("Trying to shutdown serial port");
 
-                // Resets the port to change the port name 
-                SerialPort.Close();
-
-                int maxRetries = 15;
-                int sleepTimeMs = 50;
-
-                SerialPort.PortName = Properties.Settings.Default.CurrentCOMPort.ToString();
-                while (maxRetries > 0)
-                {
-                    try
-                    {
-                        SerialPort.Open();
-                    } catch (UnauthorizedAccessException)
-                    {
-                        // if opening the port fails 
-                        maxRetries--;
-                        Thread.Sleep(sleepTimeMs);
-                    } catch (InvalidOperationException)
-                    {
-                        // if opening the port fails
-                        maxRetries--;
-                        Thread.Sleep(sleepTimeMs);
-                    }
-                }
+                SerialController controller = new SerialController();
+                controller.ChangeComPort(SerialPort, Properties.Settings.Default.CurrentCOMPort);
             }
         }
 
         public void WriteToPort(Point coordinates)
         {
             // used to prevent the serial port of overloading the target device
-            if (watch.ElapsedMilliseconds > 15)
+            if (Watch.ElapsedMilliseconds > 15)
             {
-                watch = Stopwatch.StartNew();
+                Watch = Stopwatch.StartNew();
 
                 // Debug code used to display the degrees sent to the device
-                int DegreeX = coordinates.X / (Size.Width / 180);
-                int DegreeY = coordinates.Y / (Size.Height / 180);
+                int degreeX = coordinates.X / (Size.Width / 180);
+                int degreeY = coordinates.Y / (Size.Height / 180);
 
                 // displays the degrees and XY coordinates for debugging purposes
-                Degrees.Text = $"Degrees: X{DegreeX} Y{DegreeY}";
+                Degrees.Text = $"Degrees: X{degreeX} Y{degreeY}";
                 XY.Text = $"XY: {Form1.MousePosition}";
-                
+
                 // writes the data to the COM port 
                 if (SerialPort.IsOpen)
                     SerialPort.Write(String.Format("X{0}Y{1}",
-                        (coordinates.X / (Size.Width / 180)),
+                        coordinates.X / (Size.Width / 180),
                         coordinates.Y / (Size.Height / 180))
-                        );
-                        
+                    );
+
             }
+        }
+
+        // write to the serialport whenever the mouse moves.
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+            isPortOpenLabel.Text = "IsPortOpen: " + SerialPort.IsOpen;
+            PortLabel.Text = "Port: " + SerialPort.PortName;
+            WriteToPort(new Point(e.X, e.Y));
         }
 
         // Dispose resources before program shuts down, just to be safe, cant have wild serial connections running
@@ -135,7 +101,6 @@ namespace LaserTurret
                 this.Dispose();
             }
         }
-
 
         // Confirmation form before the form closes 
         private static DialogResult FormClosingDialog()
@@ -171,21 +136,10 @@ namespace LaserTurret
             return dialogResult;
         }
 
-        // write to the serialport whenever the mouse moves.
-        private void Form1_MouseMove(object sender, MouseEventArgs e)
-        {
-            PortLabel.Text = "Port: " + Properties.Settings.Default.CurrentCOMPort;
-
-            if (watch.ElapsedMilliseconds > 15)
-                WriteToPort(new Point(e.X, e.Y));
-        }
-
         private void changeCOMToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            COMPortForm COMForm = new COMPortForm();
-            COMForm.Show();
-
+            COMPortForm comForm = new COMPortForm();
+            comForm.Show();
         }
-
     }
 }

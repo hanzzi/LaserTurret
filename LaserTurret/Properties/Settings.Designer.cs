@@ -25,31 +25,6 @@ namespace LaserTurret.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>COM0</string>
-  <string>COM1</string>
-  <string>COM2</string>
-  <string>COM3</string>
-  <string>COM4</string>
-  <string>COM5</string>
-  <string>COM6</string>
-  <string>COM7</string>
-  <string>COM8</string>
-  <string>COM9</string>
-  <string>COM10</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection COMPort {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["COMPort"]));
-            }
-            set {
-                this["COMPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("COM1")]
         public string CurrentCOMPort {
             get {

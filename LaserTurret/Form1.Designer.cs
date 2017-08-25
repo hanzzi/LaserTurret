@@ -38,6 +38,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.PortLabel = new System.Windows.Forms.Label();
+            this.isPortOpenLabel = new System.Windows.Forms.Label();
             this.Menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,11 +114,21 @@
             this.PortLabel.TabIndex = 4;
             this.PortLabel.Text = "Port:";
             // 
+            // isPortOpenLabel
+            // 
+            this.isPortOpenLabel.AutoSize = true;
+            this.isPortOpenLabel.Location = new System.Drawing.Point(236, 367);
+            this.isPortOpenLabel.Name = "isPortOpenLabel";
+            this.isPortOpenLabel.Size = new System.Drawing.Size(66, 13);
+            this.isPortOpenLabel.TabIndex = 5;
+            this.isPortOpenLabel.Text = "IsPortOpen: ";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 562);
+            this.Controls.Add(this.isPortOpenLabel);
             this.Controls.Add(this.PortLabel);
             this.Controls.Add(this.WarningLabel);
             this.Controls.Add(this.XY);
@@ -146,6 +157,7 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Label PortLabel;
+        private System.Windows.Forms.Label isPortOpenLabel;
     }
 }
 
