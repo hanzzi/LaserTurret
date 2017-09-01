@@ -20,10 +20,24 @@ namespace LaserTurret
             InitializeComponent();
         }
 
+        private void InitializePort()
+        {
+            Watch = Stopwatch.StartNew();
+
+            // initializes a serialport used throughout the applications lifetime.
+            SerialController controller = new SerialController();
+            SerialPort port = controller.SetupSerialPort();
+            SerialPort = port;
+
+            COMPortForm form = new COMPortForm();
+            form.StartPosition = FormStartPosition.CenterParent;
+            form.ShowDialog();
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-
-            
+            Properties.Settings.Default.PropertyChanged += Default_PropertyChanged;
+            /*
             Watch = Stopwatch.StartNew();
             try
             {
@@ -34,21 +48,24 @@ namespace LaserTurret
 
                 Properties.Settings.Default.PropertyChanged += Default_PropertyChanged;
 
+                COMPortForm changeCom = new COMPortForm();
+                changeCom.StartPosition = FormStartPosition.CenterParent;
+                changeCom.BringToFront();
+                changeCom.Focus();
+                changeCom.Show();
+                
+                SerialPort.Open();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-            }
+            }*/
         }
 
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            MessageBox.Show("Changed Property to: " + Properties.Settings.Default.CurrentCOMPort);
-
             if (e.PropertyName == "CurrentCOMPort")
-            {
-                MessageBox.Show("Trying to shutdown serial port");
-
+            {   
                 SerialController controller = new SerialController();
                 controller.ChangeComPort(SerialPort, Properties.Settings.Default.CurrentCOMPort);
             }
@@ -64,7 +81,6 @@ namespace LaserTurret
                 // Debug code used to display the degrees sent to the device
                 int degreeX = coordinates.X / (Size.Width / 180);
                 int degreeY = coordinates.Y / (Size.Height / 180);
-
                 // displays the degrees and XY coordinates for debugging purposes
                 Degrees.Text = $"Degrees: X{degreeX} Y{degreeY}";
                 XY.Text = $"XY: {Form1.MousePosition}";
@@ -152,6 +168,13 @@ namespace LaserTurret
         {
             COMPortForm comForm = new COMPortForm();
             comForm.Show();
+        }
+
+        private void InitializeButton_Click(object sender, EventArgs e)
+        {
+            InitializePort();
+            InitializeButton.Visible = false;
+            MouseMove += Form1_MouseMove;
         }
     }
 }

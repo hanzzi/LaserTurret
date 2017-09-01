@@ -32,14 +32,10 @@
             this.Degrees = new System.Windows.Forms.Label();
             this.XY = new System.Windows.Forms.Label();
             this.WarningLabel = new System.Windows.Forms.Label();
-            this.Menu = new System.Windows.Forms.MenuStrip();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.changeCOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.PortLabel = new System.Windows.Forms.Label();
             this.isPortOpenLabel = new System.Windows.Forms.Label();
-            this.Menu.SuspendLayout();
+            this.InitializeButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Degrees
@@ -69,38 +65,6 @@
             this.WarningLabel.Size = new System.Drawing.Size(0, 17);
             this.WarningLabel.TabIndex = 2;
             // 
-            // Menu
-            // 
-            this.Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingsToolStripMenuItem,
-            this.helpToolStripMenuItem});
-            this.Menu.Location = new System.Drawing.Point(0, 0);
-            this.Menu.Name = "Menu";
-            this.Menu.Size = new System.Drawing.Size(584, 24);
-            this.Menu.TabIndex = 3;
-            this.Menu.Text = "Menu";
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.changeCOMToolStripMenuItem});
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            // 
-            // changeCOMToolStripMenuItem
-            // 
-            this.changeCOMToolStripMenuItem.Name = "changeCOMToolStripMenuItem";
-            this.changeCOMToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.changeCOMToolStripMenuItem.Text = "Change COM";
-            this.changeCOMToolStripMenuItem.Click += new System.EventHandler(this.changeCOMToolStripMenuItem_Click);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
             // serialPort1
             // 
             this.serialPort1.PortName = "COM2";
@@ -123,25 +87,31 @@
             this.isPortOpenLabel.TabIndex = 5;
             this.isPortOpenLabel.Text = "IsPortOpen: ";
             // 
+            // InitializeButton
+            // 
+            this.InitializeButton.Location = new System.Drawing.Point(227, 62);
+            this.InitializeButton.Name = "InitializeButton";
+            this.InitializeButton.Size = new System.Drawing.Size(75, 23);
+            this.InitializeButton.TabIndex = 6;
+            this.InitializeButton.Text = "Initialize";
+            this.InitializeButton.UseVisualStyleBackColor = true;
+            this.InitializeButton.Click += new System.EventHandler(this.InitializeButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 562);
+            this.ClientSize = new System.Drawing.Size(484, 462);
+            this.Controls.Add(this.InitializeButton);
             this.Controls.Add(this.isPortOpenLabel);
             this.Controls.Add(this.PortLabel);
             this.Controls.Add(this.WarningLabel);
             this.Controls.Add(this.XY);
             this.Controls.Add(this.Degrees);
-            this.Controls.Add(this.Menu);
-            this.MainMenuStrip = this.Menu;
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_Closing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
-            this.Menu.ResumeLayout(false);
-            this.Menu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -151,13 +121,10 @@
         private System.Windows.Forms.Label Degrees;
         private System.Windows.Forms.Label XY;
         private System.Windows.Forms.Label WarningLabel;
-        private System.Windows.Forms.MenuStrip Menu;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem changeCOMToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Label PortLabel;
         private System.Windows.Forms.Label isPortOpenLabel;
+        private System.Windows.Forms.Button InitializeButton;
     }
 }
 

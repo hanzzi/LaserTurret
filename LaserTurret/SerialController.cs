@@ -29,44 +29,23 @@ namespace LaserTurret
 
             return serial;
         }
-
+        
         public void ChangeComPort(SerialPort port, string targetComPort)
         {
+            /*
+            // if the port is open close the port and try again
             if (port.IsOpen)
             {
-                // 
+                port.DiscardInBuffer();
+                port.DiscardOutBuffer();
                 Thread closePort = new Thread(() => port.Close());
                 closePort.Start();
-
-                port.PortName = Properties.Settings.Default.CurrentCOMPort;
-                port.Open();
-            }
-            /*
-            int maxRetries = 30;
-            int sleepTimeMs = 50;
-
-            
-            // kinda Hacky...
-            while (maxRetries > 0)
-            {
-                try
-                {
-                    port.PortName = Properties.Settings.Default.CurrentCOMPort;
-                    port.Open();
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    // if opening the port fails 
-                    maxRetries--;
-                    Thread.Sleep(sleepTimeMs);
-                }
-                catch (InvalidOperationException)
-                {
-                    // if opening the port fails
-                    maxRetries--;
-                    Thread.Sleep(sleepTimeMs);
-                }
+                System.Windows.Forms.MessageBox.Show("Closed port");
+                ChangeComPort(port, targetComPort);
             }*/
+
+            port.PortName = Properties.Settings.Default.CurrentCOMPort;
+            port.Open();
         }
     }
 }
