@@ -32,7 +32,7 @@ namespace LaserTurret
         
         public void ChangeComPort(SerialPort port, string targetComPort)
         {
-            /*
+            
             // if the port is open close the port and try again
             if (port.IsOpen)
             {
@@ -40,12 +40,15 @@ namespace LaserTurret
                 port.DiscardOutBuffer();
                 Thread closePort = new Thread(() => port.Close());
                 closePort.Start();
-                System.Windows.Forms.MessageBox.Show("Closed port");
                 ChangeComPort(port, targetComPort);
-            }*/
+            }
 
             port.PortName = Properties.Settings.Default.CurrentCOMPort;
-            port.Open();
+            if (!port.IsOpen)
+            {
+                port.Open();
+                return;
+            }
         }
     }
 }

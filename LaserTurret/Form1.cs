@@ -24,19 +24,22 @@ namespace LaserTurret
         {
             Watch = Stopwatch.StartNew();
 
+            COMPortForm form = new COMPortForm();
+            form.StartPosition = FormStartPosition.CenterParent;
+            form.ShowDialog();
+
             // initializes a serialport used throughout the applications lifetime.
             SerialController controller = new SerialController();
             SerialPort port = controller.SetupSerialPort();
             SerialPort = port;
 
-            COMPortForm form = new COMPortForm();
-            form.StartPosition = FormStartPosition.CenterParent;
-            form.ShowDialog();
+            controller.ChangeComPort(SerialPort, Properties.Settings.Default.CurrentCOMPort);
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Properties.Settings.Default.PropertyChanged += Default_PropertyChanged;
+            //Properties.Settings.Default.PropertyChanged += Default_PropertyChanged;
             /*
             Watch = Stopwatch.StartNew();
             try
@@ -124,7 +127,9 @@ namespace LaserTurret
                    180 - _servoY / (Size.Height / 180))
                 );
                 // dispose of resources just to be safe
-                SerialPort.Close();
+                if (SerialPort.IsOpen)
+                    SerialPort.Close();
+
                 SerialPort.Dispose();
                 this.Dispose();
             }

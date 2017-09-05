@@ -40,7 +40,7 @@ namespace LaserTurret
         private void OKButton_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default["CurrentCOMPort"] = COMCollection.SelectedValue.ToString();
-            Form1.SerialPort.PortName = Properties.Settings.Default.CurrentCOMPort;
+            //Form1.SerialPort.PortName = Properties.Settings.Default.CurrentCOMPort;
             this.Dispose();
         }
     }
